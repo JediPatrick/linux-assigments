@@ -36,7 +36,7 @@ wget $LINK
 echo "Jeg hedder"
 #
 
-if [ "$packagetype" == "dpkg" ]; then
+if [ "$packagetype" == "source" ]; then
 	filename=$(basename "$LINK")	
 	extension="${filename##*.}"
 	
