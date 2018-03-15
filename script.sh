@@ -25,7 +25,7 @@ read LINK
 echo "Checks/changes permission of folder"
 permiss=$(stat -c %a /usr/local/src)
 
-if [ "$permiss" == "775" ]; then
+if [ "$permiss" == "777" ]; then
 	echo "Permissions didnt need to be changed"
 else
 	sudo chmod -R 777 /usr/local/src
