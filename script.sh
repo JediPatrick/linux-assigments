@@ -33,8 +33,6 @@ else
 fi
 cd /usr/local/src
 wget $LINK
-echo "Jeg hedder"
-#
 
 if [ "$packagetype" == "source" ]; then
 	filename=$(basename "$LINK")	
