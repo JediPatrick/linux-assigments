@@ -1,3 +1,8 @@
+sudo add-apt_repository ppa:torkvemada/torkvemada
+sudo apt-get update
+sudo apt-get install parcel-tracker
+sudo apt-get install alien
+
 while true; do 
 	read -p "Do you want to download the package? Enter y for yes and n for no." yn
 	case $yn in
@@ -23,17 +28,43 @@ permiss=$(stat -c %a /usr/local/src)
 if [ "$permiss" == "775" ]; then
 	echo "Permissions didnt need to be changed"
 else
-	sudo chmod 777 /usr/local/src
+	sudo chmod -R 777 /usr/local/src
 	echo "Permissions changed"
 fi
 cd /usr/local/src
 wget $LINK
-filename=$(basename "$LINK")
-echo $filename
+echo "Jeg hedder"
+#
 
 if [ "$packagetype" == "dpkg" ]; then
-	echo "dpkg/rpm."
-else
-	echo "source code."
-	tar -xzvf $filename
+	filename=$(basename "$LINK")	
+	extension="${filename##*.}"
+	
+	
+	echo $extension
+	if [ "$extension" == "gz" ]; then
+		tar xzvf $filename
+	elif [ "$extension" == "bz2" ]; then
+		tar xjvf $filename
+	elif [ "$extension" == "tgz" ]; then
+		tar xzvf $filename
+	elif [ "$extension" == "txz" ]; then
+		tar xvf $filename
+	fi
+	echo "Please type in name of extracted folder"
+	read foldername
+	cd $foldername
+	./configure
+	make
+	make install
+else	
+	echo "Please type in name of file"
+	read foldername
+	sudo alien $filename
+	echo "Please type in name of file"
+	read dpkgname
+	sudo dpkg --install $dpkgname
+	
 fi
+
+
